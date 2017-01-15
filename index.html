@@ -30,7 +30,7 @@ body{
 	border-bottom:10px solid #999999;
 	position:absolute;
 	left:50px;
-	top:-20px;
+	top:-21px;
 }
 .container::before{
 	content:"";
@@ -38,7 +38,7 @@ body{
 	border-bottom:10px solid #FFFFFF;
 	position:absolute;
 	left:50px;
-	top:-19px;
+	top:-20px;
 }
 .container p{
 	margin:0;
@@ -111,7 +111,7 @@ function setTrianglePosition(left, top)
 $(document).ready(function(e) {
     $(document).on('click', '.inner', function(e){
 		var left = e.clientX;
-		setTrianglePosition(left-18, -20)
+		setTrianglePosition(left-18, -21)
 	});
 });
 </script>
