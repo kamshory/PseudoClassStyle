@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Modify ::before and ::after Style</title>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<style type="text/css">
+body{
+	margin:0;
+	padding:0;
+	font-family:Verdana, Geneva, sans-serif;
+	font-size:13px;
+}
+.all{
+	padding:20px;
+}
+</style>
+<style type="text/css" class="dynamicstyle">
+.wrapper{
+	position:relative;
+	width:300px;
+	border:1px solid #999999;
+	margin-top:50px;
+}
+.container{
+}
+.wrapper::before{
+	content:"";
+	border:10px solid transparent;
+	border-bottom:10px solid #999999;
+	position:absolute;
+	left:50px;
+	top:-20px;
+}
+.container::before{
+	content:"";
+	border:10px solid transparent;
+	border-bottom:10px solid #FFFFFF;
+	position:absolute;
+	left:50px;
+	top:-19px;
+}
+.container p{
+	margin:0;
+}
+.container{
+	padding:16px;
+}
+.inner{
+	background-color:#FC0;
+	height:100px;
+	padding:20px;
+}
+</style>
+<style type="text/css">
+.container p{
+	margin:0;
+	-webkit-user-select: none;  
+	-moz-user-select: none;    
+	-ms-user-select: none;      
+	user-select: none;
+	cursor:default;	
+}
+.container{
+	padding:16px;
+}
+.inner{
+	background-color:#FC0;
+	height:100px;
+	padding:20px;
+}
+</style>
+<script type="text/javascript">
+(function ($){
+    window.addRule = function(selector, styles, sheet) {
+        if (typeof styles !== "string"){
+            var clone = "";
+            for (var style in styles){
+                var val = styles[style];
+                style = style.replace(/([A-Z])/g, "-$1").toLowerCase(); // convert to dash-case
+                clone += style + ":" + (style === "content" ? '"' + val + '"' : val) + "; ";
+            }
+            styles = clone;
+        }
+		sheet = sheet || document.styleSheets[document.styleSheets.length-1];
+        if (sheet.insertRule) sheet.insertRule(selector + " {" + styles + "}", sheet.cssRules.length);
+        else if (sheet.addRule) sheet.addRule(selector, styles);
+        return this;
+    };
+
+    if ($){
+        $.fn.addRule = function (styles, sheet) {
+            addRule(this.selector, styles, sheet);
+            return this;
+        };
+    }
+}(window.jQuery));
+
+function setTrianglePosition(left, top)
+{
+	$(".wrapper:before").addRule({
+		left: left+"px",
+		top: top+"px"
+	});
+	$(".container:before").addRule({
+		left: left+"px",
+		top: (top+1)+"px"
+	});
+
+}
+$(document).ready(function(e) {
+    $(document).on('click', '.inner', function(e){
+		var left = e.clientX;
+		setTrianglePosition(left-18, -20)
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="all">
+<div class="wrapper">
+    <div class="container">
+    	<div class="inner">
+            <p>Click anywhere on this area :)</p>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
